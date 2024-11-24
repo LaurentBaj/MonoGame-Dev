@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/.NET/Game1/Game1/Content/blazor.png","C:/.NET/Game1/Game1/Content/bin/DesktopGL/blazor.xnb","TextureProcessor","Texture2DContent",19650,4000085,0.3089665
+"C:/.NET/Game1/Game1/Content/spongebob.jpg","C:/.NET/Game1/Game1/Content/bin/DesktopGL/spongebob.xnb","TextureProcessor","Texture2DContent",8998,236281,0.0284171
