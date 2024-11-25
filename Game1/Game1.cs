@@ -33,28 +33,7 @@ public class Game1 : Game
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        if (Keyboard.GetState().IsKeyDown(Keys.Right))
-        {
-            Vector2 newPos = _blazorSprite.Position += new Vector2(1, 0);
-            _blazorSprite.Position = newPos;
-        }
-        
-        if (Keyboard.GetState().IsKeyDown(Keys.Left))
-        {
-            Vector2 newPos = _blazorSprite.Position += new Vector2(-1, 0);
-            _blazorSprite.Position = newPos;
-        }
-        
-        if (Keyboard.GetState().IsKeyDown(Keys.Up))
-        {
-            Vector2 newPos = _blazorSprite.Position += new Vector2(0, -1);
-            _blazorSprite.Position = newPos;
-        }
-        if (Keyboard.GetState().IsKeyDown(Keys.Down))
-        {
-            Vector2 newPos = _blazorSprite.Position += new Vector2(0, 1);
-            _blazorSprite.Position = newPos;
-        }
+        _blazorSprite.UpdatePosition(Keyboard.GetState(), speed: 8f);
         
         base.Update(gameTime);
     }
