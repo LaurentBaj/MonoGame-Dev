@@ -1,4 +1,7 @@
-﻿# Created by https://www.toptal.com/developers/gitignore/api/jetbrains
+./Game1/Content/obj
+./Game1/Content/bin
+
+# Created by https://www.toptal.com/developers/gitignore/api/jetbrains
 # Edit at https://www.toptal.com/developers/gitignore?templates=jetbrains
 
 ### JetBrains ###
