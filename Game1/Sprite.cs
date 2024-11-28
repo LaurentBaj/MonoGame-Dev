@@ -1,58 +1,60 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static Game1.Direction;
 
 namespace Game1;
 
-public class Sprite(Texture2D texture, Vector2 size)
+public class Sprite
 {
-    public Texture2D Texture { get; } = texture;
-    public Vector2 Position { get; set; } = size;
+    public Texture2D Texture { get; }
+    public Vector2 Position { get; private set; }
+    private float _speed;
 
-    private float _speed = 1f;
-
-    public void UpdatePosition(KeyboardState state) 
-        => UpdatePosition(state, 1f);
-
-    public void UpdatePosition(KeyboardState state, float speed)
+    public Sprite(Texture2D texture, Vector2 startPosition, float initialSpeed = 1f)
+    {
+        Texture = texture ?? throw new ArgumentNullException(nameof(texture));
+        Position = startPosition;
+        _speed = initialSpeed;
+    }
+        
+    public void UpdatePosition(Func<Keys, bool> keyPressed, float speed)
     {
         _speed = speed;
-        
-        if (state.IsKeyDown(Keys.Up))
+
+        if (keyPressed(Keys.Up))
         {
-            MoveUp();
+            Move(UP);
         }
-        else if (state.IsKeyDown(Keys.Down))
+        else if (keyPressed(Keys.Down))
         {
-            MoveDown();
+            Move(DOWN);
         }
-        else if (state.IsKeyDown(Keys.Left))
+        else if (keyPressed(Keys.Left))
         {
-            MoveLeft();
+            Move(LEFT);
         }
-        else if (state.IsKeyDown(Keys.Right))
+        else if (keyPressed(Keys.Right))
         {
-            MoveRight();
+            Move(RIGHT);
         }
-    }
-    
-    private void MoveUp()
-    {
-        Position = new Vector2(Position.X, Position.Y - _speed);
     }
 
-    private void MoveDown()
+    private void Move(Direction direction) => Position = direction switch
     {
-        Position = new Vector2(Position.X, Position.Y + _speed);
-    }
+        LEFT => new Vector2(Position.X - _speed, Position.Y),
+        RIGHT => new Vector2(Position.X + _speed, Position.Y),
+        UP => new Vector2(Position.X, Position.Y - _speed),
+        DOWN => new Vector2(Position.X, Position.Y + _speed),
+        _ => Position
+    };
+}
 
-    private void MoveLeft()
-    {
-        Position = new Vector2(Position.X - _speed, Position.Y);
-    }
-
-    private void MoveRight()
-    {
-        Position = new Vector2(Position.X + _speed, Position.Y);
-    }
+public enum Direction
+{
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
 }
