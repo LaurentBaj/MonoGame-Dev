@@ -9,7 +9,7 @@ namespace Game1;
 public class Sprite
 {
     public Texture2D Texture { get; }
-    public Vector2 Position { get; private set; }
+    public Vector2 Position { get; protected set; }
     private float _speed;
 
     public Sprite(Texture2D texture, Vector2 startPosition, float initialSpeed = 1f)
@@ -19,7 +19,7 @@ public class Sprite
         _speed = initialSpeed;
     }
         
-    public void UpdatePosition(Func<Keys, bool> keyPressed, float speed)
+    public virtual void UpdatePosition(Func<Keys, bool> keyPressed, float speed)
     {
         _speed = speed;
 

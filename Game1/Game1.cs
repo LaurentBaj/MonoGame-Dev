@@ -9,7 +9,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     private ScaledSprite _blazorSprite;
-    private ScaledSprite _enemySprite;
+    private EnemySprite _enemySprite;
     
     public Game1()
     {
@@ -26,7 +26,7 @@ public class Game1 : Game
         Texture2D enemyTexture = Content.Load<Texture2D>("spongebob");
         
         _blazorSprite = new ScaledSprite(blazorTexture, Vector2.Zero);
-        _enemySprite = new ScaledSprite(enemyTexture, new Vector2(200, 300));
+        _enemySprite = new EnemySprite(enemyTexture, new Vector2(200, 300));
     }
 
     protected override void Update(GameTime gameTime)
@@ -35,7 +35,8 @@ public class Game1 : Game
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        _blazorSprite.UpdatePosition(Keyboard.GetState().IsKeyDown, speed: 3f);
+        _enemySprite.MoveTowardsPlayer(_blazorSprite.Position, speed: 5f);
+        _blazorSprite.UpdatePosition(Keyboard.GetState().IsKeyDown, speed: 16f);
         
         base.Update(gameTime);
     }
