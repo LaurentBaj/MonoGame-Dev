@@ -30,16 +30,16 @@ public class Game1 : Game
         
         _playerSprite = new ScaledSprite(blazorTexture, Vector2.Zero);
         
-        EnemySprite enemy1 = new (enemyTexture, new Vector2(100, 100), 1);
-        EnemySprite enemy2 = new (enemyTexture, new Vector2(400, 200), 2);
-        EnemySprite enemy3 = new (enemyTexture, new Vector2(700, 300), 3);
+        EnemySprite enemy1 = new (enemyTexture, new Vector2(400, 100));
+        EnemySprite enemy2 = new (enemyTexture, new Vector2(600, 200));
+        EnemySprite enemy3 = new (enemyTexture, new Vector2(700, 300));
         _enemySprites.AddRange([enemy1, enemy2, enemy3]);
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Keyboard.GetState().IsKeyDown(Keys.Escape) || _enemySprites.Count == 0)
             Exit();
         
         _playerSprite.UpdatePosition(Keyboard.GetState().IsKeyDown, speed: 7f);
