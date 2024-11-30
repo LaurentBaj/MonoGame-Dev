@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1;
 
-public class EnemySprite(Texture2D texture, Vector2 position) 
+public class EnemySprite(Texture2D texture, Vector2 position, int id = 0) 
     : ScaledSprite(texture, position)
 {
+    public int Id { get; init; } = id;
+    
     public void MoveTowardsPlayer(Vector2 playerPosition, float speed = 1f)
     {
         Vector2 direction = playerPosition - Position;

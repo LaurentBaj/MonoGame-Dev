@@ -19,7 +19,7 @@ public class Sprite
         _speed = initialSpeed;
     }
         
-    public virtual void UpdatePosition(Func<Keys, bool> keyPressed, float speed)
+    public virtual void UpdatePosition(Func<Keys, bool> keyPressed, float speed = 1f)
     {
         _speed = speed;
 
