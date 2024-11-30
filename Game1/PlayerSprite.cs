@@ -4,60 +4,51 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Game1.Direction;
 
 namespace Game1;
 
-public class PlayerSprite(Texture2D texture, Vector2 position, List<EnemySprite> enemySprites) : ScaledSprite(texture, position)
+public class PlayerSprite(Texture2D texture, Vector2 position, List<EnemySprite> enemySprites)
+    : ScaledSprite(texture, position)
 {
-    // Define a mapping from Direction to Vector2
-    private readonly Dictionary<Direction, Vector2> _directionVectors = new()
-    {
-        { UP, new Vector2(0, -1) },
-        { DOWN, new Vector2(0, 1) },
-        { LEFT, new Vector2(-1, 0) },
-        { RIGHT, new Vector2(1, 0) }
-    };
-
     public override void UpdatePosition(Func<Keys, bool> keyPressed, float speed = 1)
     {
         Speed = speed;
-        
-        Direction? movementDirection = null;
 
-        if (keyPressed(Keys.Up))
-        {
-            movementDirection = UP;
-        }
-        else if (keyPressed(Keys.Down))
-        {
-            movementDirection = DOWN;
-        }
-        else if (keyPressed(Keys.Left))
-        {
-            movementDirection = LEFT;
-        }
-        else if (keyPressed(Keys.Right))
-        {
-            movementDirection = RIGHT;
-        }
+        // Determine direction based on key pressed
+        Vector2 directionVector = GetDirectionVector(keyPressed);
 
-        if (!movementDirection.HasValue) 
+        // Calculate new position
+        Vector2 nextPositionVector = Position + directionVector * Speed;
+
+        // Move if no collision detected
+        if (IsCollisionDetected(nextPositionVector)) 
             return;
-        
-        Vector2 directionVector = _directionVectors[movementDirection.Value];
-        Vector2 newPosition = Position + directionVector * speed;
-
-        // Check if new position would collide with any enemy
-        bool collisionDetected = enemySprites.Any(enemy =>
-            new Rectangle(newPosition.ToPoint(), Rect.Size).Intersects(enemy.Rect));
-
-        if (!collisionDetected)
-        {
-            Move(directionVector);
-        }
+            
+        Move(directionVector);
     }
-    
+
+    // Extract method to determine direction vector
+    private Vector2 GetDirectionVector(Func<Keys, bool> keyPressed)
+    {
+        if (keyPressed(Keys.Up))
+            return new Vector2(0, -1);
+        if (keyPressed(Keys.Down))
+            return new Vector2(0, 1);
+        if (keyPressed(Keys.Left))
+            return new Vector2(-1, 0);
+        if (keyPressed(Keys.Right))
+            return new Vector2(1, 0);
+
+        return Vector2.Zero;
+    }
+
+    // Extract method to check for collision
+    private bool IsCollisionDetected(Vector2 newPosition)
+    {
+        Rectangle newRect = new Rectangle(newPosition.ToPoint(), Rect.Size);
+        return enemySprites.Any(enemy => newRect.Intersects(enemy.Rect));
+    }
+
     private void Move(Vector2 direction)
     {
         Position += direction * Speed;

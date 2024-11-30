@@ -11,7 +11,7 @@ public class Game1 : Game
 {
     private SpriteBatch _spriteBatch;
 
-    private ScaledSprite _playerSprite;
+    private PlayerSprite _playerSprite;
     private readonly List<EnemySprite> _enemySprites = [];
     
     public Game1()
@@ -28,12 +28,13 @@ public class Game1 : Game
         Texture2D blazorTexture = Content.Load<Texture2D>("blazor");
         Texture2D enemyTexture = Content.Load<Texture2D>("spongebob");
         
-        _playerSprite = new ScaledSprite(blazorTexture, Vector2.Zero);
         
         EnemySprite enemy1 = new (enemyTexture, new Vector2(400, 100));
         EnemySprite enemy2 = new (enemyTexture, new Vector2(600, 200));
         EnemySprite enemy3 = new (enemyTexture, new Vector2(700, 300));
         _enemySprites.AddRange([enemy1, enemy2, enemy3]);
+        
+        _playerSprite = new PlayerSprite(blazorTexture, Vector2.Zero, _enemySprites);
     }
 
     protected override void Update(GameTime gameTime)
@@ -43,17 +44,6 @@ public class Game1 : Game
             Exit();
         
         _playerSprite.UpdatePosition(Keyboard.GetState().IsKeyDown, speed: 7f);
-        
-        List<EnemySprite> enemiesToBeDeleted = [];
-        foreach (EnemySprite enemy in _enemySprites)
-        {
-            if (enemy.Rect.Intersects(_playerSprite.Rect))
-            {
-                enemiesToBeDeleted.Add(enemy);
-            }
-        }
-        
-        enemiesToBeDeleted.ForEach(enemy => _enemySprites.Remove(enemy));
         
         base.Update(gameTime);
     }
