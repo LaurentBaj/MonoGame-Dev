@@ -1,5 +1,6 @@
-./Game1/Content/obj
-./Game1/Content/bin
+# Ignore bin and obj directories in Game1
+Game1/bin/
+Game1/obj/
 
 # Created by https://www.toptal.com/developers/gitignore/api/jetbrains
 # Edit at https://www.toptal.com/developers/gitignore?templates=jetbrains
